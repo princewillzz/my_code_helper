@@ -83,9 +83,8 @@ def main():
         try:
             message = input("Message:- ")
             if message.strip() == "":
-                print("can commit without message:)")
+                print("cannot commit without message:)")
                 return
-            print(message)
             git_add(message)
         except:
             return
