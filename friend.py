@@ -23,8 +23,6 @@ def doit():
         return 
 
     f.close()
-    # To remove the ".class" type file again
-    remove_unwanted()
 
 
 # Remove the ".class" type file created after the execution of the program 
@@ -49,7 +47,7 @@ def writeContent(name_of_file):
     f.close()
 
     # Check if the file already exist then just compile and run the program
-    if name_of_file in os.listdir():
+    if os.path.exists(name_of_file):
         doit()
         return
     # if the file is not present create a new file with the name given as input
@@ -69,13 +67,31 @@ def writeContent(name_of_file):
     f1.close()
     f2.close()
 
+def git_add(message):
+    remove_unwanted()
+    os.system("git add .")
+    os.system("git commit -m " + "\"" + message + "\"")
 
-if __name__ == "__main__":
+
+def main():
     name_of_file = sys.argv[1]
     if name_of_file == "clean":
         remove_unwanted()
     elif name_of_file == "doit":
         doit()
+    elif name_of_file == "commit":
+        try:
+            message = input("Message:- ")
+            if message.strip() == "":
+                print("can commit without message:)")
+                return
+            print(message)
+            git_add(message)
+        except:
+            return
     else:
         name_of_file += ".java"
         writeContent(name_of_file)
+
+if __name__ == "__main__":
+    main()
