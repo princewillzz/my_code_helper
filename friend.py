@@ -1,19 +1,8 @@
-#!/usr/bin/env python
+
 import os, datetime
 import sys
 import speech_recognition as sr 
 import pyttsx3 
-
-# Properties of the python text to speech engine
-engine = pyttsx3.init()
-voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[1].id)
-engine.setProperty('rate', 140)
-
-# Properties of my Recognizer
-r = sr.Recognizer()
-r.pause_threshold = 0.5
-r.energy_threshold = 100
 
 
 
@@ -101,13 +90,13 @@ def speak(audio):
 
 
 def wish():
-    time_in_hour = datetime.datetime.now()
+    time_in_hour = int(datetime.datetime.now().hour)
     if time_in_hour > 4 and time_in_hour < 12 :
-        speak("Good, Morning! my love")
-    elif time_in_hour < 17:
-        speak("Good, Afternoon! my love")
+        speak("Good, Morning my loven !!")
+    elif time_in_hour < 17 and time_in_hour > 4:
+        speak("Good, Afternoon! my love !!")
     else :
-        speak("Good evening! Love")
+        speak("Good evening Love !!")
 
 def search_name(audio_message):
     words = audio_message.split(" ")
@@ -119,17 +108,20 @@ def voice_input():
     with sr.Microphone() as source:
         r.adjust_for_ambient_noise(source, duration=1)
         print("Listening")
-        audio = r.listen(source, timeout=6, phrase_time_limit=4)
+        audio = r.listen(source)
 
     try:
         response = r.recognize_google(audio)
         return response
     except sr.UnknownValueError:
+        speak("Sorry, I was not able to understand")
         print("Sorry, I was not able to understand")
     except sr.WaitTimeoutError:
         print("Time was over")
+        speak("Time was over")
     except sr.RequestError:
         print("Can't reach the recognizer")
+        speak("Can't reach the recognizer")
 
     return None
 
@@ -137,10 +129,11 @@ def voice_input():
 
 def main():
     while True:
-        command = voice_input().lower()
+        command = voice_input()
         if command == None: 
-            voice_input()
-
+            continue
+        speak(command)
+        command = command.lower()
         if "clean" in command:
             remove_unwanted()
         elif "run" in command:
@@ -155,14 +148,37 @@ def main():
             except:
                 return
         elif "create" in command:
-            speak("Are you sure to create the file with this name: ")
             name_of_file = search_name(command)
-            name_of_file += ".java"
-            writeContent(name_of_file)
+            speak("Are you sure to create the file with this name: " + name_of_file)
+            decide = voice_input()
+            if decide == None:
+                continue
+            elif "yes" in decide:
+                name_of_file += ".java"
+                writeContent(name_of_file)
+            else:
+                speak("Ok! The file is destroyed")
+
+        elif "exit" in command:
+            speak("Good Night my love!!!")
+            return
+        else:
+            print("repeating")
 
 
 
+# Properties of the python text to speech engine
+engine = pyttsx3.init('sapi5')
+voices = engine.getProperty('voices')
+engine.setProperty('voice', voices[1].id)
+engine.setProperty('rate', 140)
 
-if __name__ == "__main__":
-    wish()
-    main()
+# Properties of my Recognizer
+r = sr.Recognizer()
+r.pause_threshold = 0.8
+r.energy_threshold = 100
+
+
+
+wish()
+main()
