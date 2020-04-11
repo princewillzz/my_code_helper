@@ -81,6 +81,7 @@ def git_add(message):
     remove_unwanted()
     os.system("git add .")
     os.system("git commit -m " + "\"" + message + "\"")
+    os.system("git push")
 
 
 
@@ -113,6 +114,9 @@ def main():
         
         try:
             searching_context = sys.argv[2:]
+            if len(searching_context) == 0:
+                speak("nothing to search")
+                return
             speak("Searching wikipedia")
             speak("How many sentences do you want me to read")
             sent = int(input("Enter number of lines to read: "))
