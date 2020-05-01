@@ -1,17 +1,14 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.Scanner;
 
 public class forjava {
-    public static void main(String argv[]) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public static void main(String argv[]) {
+        Scanner sc = new Scanner(System.in);
+		int t = sc.nextInt();
+		while(t-- > 0) {
+	    	int n = sc.nextInt();
         
+		}
 
-    }
-    
-    static int solve() {
-
-        return 0;
     }
 
 }
