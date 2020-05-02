@@ -5,8 +5,8 @@ voices = engine.getProperty('voices')
 voices[1].age = 5
 print(voices[1].age, voices[1].gender)
 engine.setProperty('voice', voices[1].id)
-engine.setProperty('rate', 140)
+engine.setProperty('rate', 120)
 
 
-engine.say('The quick brown fox jumped over the lazy dog.')
+engine.say('The pdf has been fully read')
 engine.runAndWait()

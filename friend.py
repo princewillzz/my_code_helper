@@ -2,7 +2,55 @@
 import os
 import sys
 import PyPDF2, wikipedia, webbrowser
+import time
 import pyttsx3 
+
+
+# Properties of the python text to speech engine
+engine = pyttsx3.init('sapi5')
+voices = engine.getProperty('voices')
+engine.setProperty('voice', voices[1].id)
+engine.setProperty('rate', 130)
+
+def speak(audio):
+    try:
+        engine.say(audio)
+        engine.runAndWait()
+    except:
+        print("Sorry, for inconvenience")
+
+
+def read_pdf_help(pdf_name):
+    try:
+        startPage = int(sys.argv[3]) - 1
+    except:
+        startPage = 0
+
+    pdfFile = open(pdf_name, 'rb')
+    pdfReader = PyPDF2.PdfFileReader(pdfFile)
+    try:
+        for i in range(startPage, pdfReader.numPages):
+            page = pdfReader.getPage(i).extractText()
+            print(page)
+            page = page.replace("\n", "")
+            speak(page)
+            speak("Do you want to read more(y/n):- ")
+            choice = input("Do you want to read more(y/n):- ").strip()
+            if "y" in choice or "Y" in choice:
+                continue
+            else:
+                return
+        speak("The pdf has been fully read")
+    except:
+        speak("The page number cannot be found by me sorry")
+
+def read_pdf(pdf_name):
+    try:
+        os.system(f'start cmd /c "friend.py speak_pdf {pdf_name} {sys.argv[2]} "')
+    except:
+        os.system(f'start cmd /c "friend.py speak_pdf {pdf_name} "')
+
+
 
 # list of all the files and folder in this directory
 list_of_files_in_current_directory = os.listdir()
@@ -12,11 +60,6 @@ f = open("D:\projects\my_code_helper/run.txt")
 java_file_to_be_run = f.readline()
 f.close()
 
-# Properties of the python text to speech engine
-engine = pyttsx3.init('sapi5')
-voices = engine.getProperty('voices')
-engine.setProperty('voice', voices[1].id)
-engine.setProperty('rate', 150)
 
 # Compile and Run the program given as the input 
 def run_java():
@@ -102,16 +145,12 @@ def create_or_run_c_file():
     write_c_file.close()
         
 
-    
-
 def switch():
     if "." in sys.argv[1]:
         f = open(sys.argv[1], "w")
         f.close()
     elif "-c" in sys.argv[1] or "-C" in sys.argv[1]:
         create_or_run_c_file()
-
-
 
 
 def git_add():
@@ -126,14 +165,6 @@ def git_add():
     except:
         print("Something went wrong")
 
-def speak(audio):
-    try:
-        engine.say(audio)
-        engine.runAndWait()
-        return 0
-    except:
-        print("Sorry, for inconvenience")
-    return 1
 
 def search_wiki():
     try:
@@ -186,23 +217,6 @@ def search_google():
     print(query)
     webbrowser.open(query)
 
-def read_pdf(pdf_name):
-    try:
-        startPage = sys.argv[2]
-    except:
-        startPage = 0
-
-    pdfFile = open(pdf_name, 'rb')
-    pdfReader = PyPDF2.PdfFileReader(pdfFile)
-    for i in range(startPage, pdfReader.numPages):
-        page = pdfReader.getPage(i).extractText()
-        page = page.replace("\n", "")
-        speak(page)
-        speak("Do you want to read more(y/n):- ")
-        choice = input("Do you want to read more(y/n):- ").strip()
-        if "y" in choice or "Y" in choice:
-            continue
-
 
 
 def main():
@@ -220,6 +234,7 @@ def main():
         search_google()
     elif "." not in sys.argv[1] and "-" not in sys.argv[1]:
         pdf_name = sys.argv[1] + ".pdf"
+        print(f"found {pdf_name}")
         if pdf_name in list_of_files_in_current_directory:
             read_pdf(pdf_name)
             return
@@ -231,4 +246,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if sys.argv[1] == "speak_pdf":
+        read_pdf_help(sys.argv[2])
+    else: 
+        main()   
+
