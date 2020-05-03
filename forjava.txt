@@ -3,11 +3,7 @@ import java.util.Scanner;
 public class forjava {
     public static void main(String argv[]) {
         Scanner sc = new Scanner(System.in);
-		int t = sc.nextInt();
-		while(t-- > 0) {
-	    	int n = sc.nextInt();
-        
-		}
+		System.out.println("Hello");
 
     }
 
