@@ -28,15 +28,31 @@ def switch():
     if "." in sys.argv[1]:
         f = open(sys.argv[1], "w")
         f.close()
-    elif "-CR" == sys.argv[1] or "-cr" == sys.argv[1]:
+    elif "-cr" == sys.argv[1] or "-CR" == sys.argv[1]:
         try:
             run_c(f"{sys.argv[2]}.c")
         except:
+            try:
+                os.remove("a.exe")
+            except:
+                speaker.speak("no filename found")
+                print("Nothing to do")
+                print("syntax:- -cr 'filename'")
+    elif "-r" == sys.argv[1] or "-R" == sys.argv[1]:
+        try:
+            os.remove(sys.argv[2])
+        except IndexError:
             os.remove("a.exe")
-    elif "-R" == sys.argv[1] or "-r" == sys.argv[1]:
-        os.remove("a.exe")
+        except:
+            speaker.speak("No file found")
+            print("Nothing to delete")
+            print("syntax:- -r 'filename'")
     elif "-c" in sys.argv[1] or "-C" in sys.argv[1]:
-        create_or_run_c_file(sys.argv[2])
+        try:
+            create_or_run_c_file(sys.argv[2])
+        except:
+            speaker.speak("No argument found")
+            print("syntax:- -c 'filename'")
 
 
 def helper(secret_command, pdf_name=None):
