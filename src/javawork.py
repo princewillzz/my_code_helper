@@ -4,7 +4,7 @@ import os
 def run_java(java_file_to_be_run=None):
     if java_file_to_be_run == None:
         # Access the file name to be executed
-        f = open("D:\projects\my_code_helper/run.txt")
+        f = open("D:\projects\my_code_helper\\trackingfiles/run.txt")
         java_file_to_be_run = f.readline()
         f.close()
 
@@ -30,13 +30,13 @@ def Create_or_run_java_file(name_of_file):
         return
 
     # Write the name of the file in run.txt to compile and run the program later
-    f = open("D:\projects\my_code_helper/run.txt", "w")
+    f = open("D:\projects\my_code_helper\\trackingfiles/run.txt", "w")
     f.write(name_of_file)
     f.close()
 
     # if the file is not present create a new file with the name given as input
     f2 = open(name_of_file, "w+") 
-    f1 = open("D:\projects\my_code_helper/forjava.txt")
+    f1 = open("D:\projects\my_code_helper\\trackingfiles/forjava.txt")
     
     # Do the actual stuff of wrting the pre-set code into the new file
     for content in f1:

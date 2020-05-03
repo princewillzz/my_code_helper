@@ -16,8 +16,9 @@ def readPDF(pdf_name):
             print(page)
             page = page.replace("\n", "")
             speaker.speak(page)
-            speaker.speak("Do you want to read more(y/n):- ")
-            choice = input("Do you want to read more(y/n):- ").strip()
+            print("Do you want to read more(y/n):- ")
+            speaker.speak("Do you want to read more(yes/nes):- ")
+            choice = input().strip()
             if "y" in choice or "Y" in choice:
                 continue
             else:
