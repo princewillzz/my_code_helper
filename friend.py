@@ -1,10 +1,20 @@
 #!/usr/bin/env python
-import os
-import sys
+import os, sys, time
 import PyPDF2, wikipedia, webbrowser
-import time
 import pyttsx3 
-
+from threading import Thread
+from functools import wraps
+ 
+ 
+def fn_timer(function):
+    @wraps(function)
+    def function_timer(*args, **kwargs):
+        t0 = time.time()
+        result = function(*args, **kwargs)
+        t1 = time.time()
+        print ("Total time running seconds", str(t1-t0))
+        return result
+    return function_timer
 
 # Properties of the python text to speech engine
 engine = pyttsx3.init('sapi5')
@@ -196,8 +206,8 @@ def search_youtube():
         return
     query = "http://www.youtube.com/results?search_query="
 
-    for comm in searching_context:
-        query += comm
+    for word in searching_context:
+        query += word
         query += '+'
     print(query)
     webbrowser.open(query)
@@ -211,14 +221,19 @@ def search_google():
         return
     query = "https://www.google.com/search?q="
     
-    for comm in searching_context:
-        query += comm
+    for word in searching_context:
+        query += word
         query += '+'
     print(query)
     webbrowser.open(query)
 
+def count():
+    sum = 0
+    for i in range(100000000):
+        sum += i
+    
 
-
+@fn_timer
 def main():
     if sys.argv[1] == "clean" or sys.argv[1] == "flush" or sys.argv[1] == "cleam":
         remove_unwanted()
@@ -228,26 +243,29 @@ def main():
         git_add()
     elif "wikipedia" in sys.argv[1] or "pedia" in sys.argv[1] or "wiki" in sys.argv[1]:
         search_wiki()    
-    elif "youtube" in sys.argv[1] or "yout" in sys.argv[1] or "tube" in sys.argv[1]:
+    elif "youtube" in sys.argv[1] or "ytb" in sys.argv[1] or "tube" in sys.argv[1]:
         search_youtube()
     elif "search" in sys.argv[1] or "google" in sys.argv[1]:
         search_google()
     elif "." not in sys.argv[1] and "-" not in sys.argv[1]:
         pdf_name = sys.argv[1] + ".pdf"
-        print(f"found {pdf_name}")
+        
         if pdf_name in list_of_files_in_current_directory:
-            read_pdf(pdf_name)
-            return
-
-        sys.argv[1] += ".java"
-        Create_or_run_java_file(sys.argv[1])
+            print(f"Reading {pdf_name}")
+            t = Thread(target=read_pdf, args=(pdf_name,))
+            t.start()
+        else:
+            sys.argv[1] += ".java"
+            Create_or_run_java_file(sys.argv[1])
     else:
         switch()
 
 
 if __name__ == "__main__":
+    print("hello")
     if sys.argv[1] == "speak_pdf":
         read_pdf_help(sys.argv[2])
+        
     else: 
-        main()   
+        main()  
 
