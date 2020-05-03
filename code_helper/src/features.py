@@ -16,6 +16,7 @@ def search_youtube(query):
         url += word
         url += '+'
     print(url)
+    # url = http://www.youtube.com/results?search_query=beauty+tips
     webbrowser.open(url)
 
 def search_google(query):
