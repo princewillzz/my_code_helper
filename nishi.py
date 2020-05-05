@@ -119,6 +119,13 @@ def main():
 
 
 if __name__ == "__main__":
+    """docx_name = sys.argv[1]
+    final_pdf_name = sys.argv[2]
+    pdf_name = docx_name.split(".")[0] + ".pdf"
+    convertDocxToPDF(docx_name=docx_name, pdf_name=pdf_name, final_pdf_name=final_pdf_name)"""
+    
+    
+
     if sys.argv[1] == "speak_pdf001":
         readPDF(sys.argv[2])
         
@@ -129,4 +136,3 @@ if __name__ == "__main__":
         print("start")
         main()  
         print("End")
-
