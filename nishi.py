@@ -110,7 +110,7 @@ def main():
             print(f"Reading {pdf_name}")
             t2 = Thread(target=helper, args=("speak_pdf001", pdf_name))
             t2.start()
-            return
+            
         else:
             sys.argv[1] += ".java"
             Create_or_run_java_file(sys.argv[1])
