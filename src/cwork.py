@@ -19,7 +19,7 @@ def create_or_run_c_file(file_name):
         return
 
     # Create the C file if it does not exists
-    read_c_file = open("D:\projects\my_code_helper\\trackingfiles/forC.txt")
+    read_c_file = open("D:\dev\projects\my_code_helper\\trackingfiles/forC.txt")
 
     write_c_file = open(file_name, "w+")
     # Write content into the .c type file
