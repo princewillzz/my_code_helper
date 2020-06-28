@@ -36,11 +36,8 @@ def convertDocxToPDF(docx_name=str, pdf_name=str, final_pdf_name=str):
     textLines = [];count=0;
     for i in doc.paragraphs:
         count+=1
-        if count == 40:
-            break
         textLines.append(i.text)
         
-    return
     pdf = canvas.Canvas(final_pdf_name)
 
     text = pdf.beginText(30, 800)
@@ -69,7 +66,7 @@ def convertDocxToPDF(docx_name=str, pdf_name=str, final_pdf_name=str):
 
 
         else:
-            #print(every_line)
+            print(every_line)
             text.textLine(every_line)
 
 

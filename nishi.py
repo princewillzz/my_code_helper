@@ -47,12 +47,30 @@ def switch():
             speaker.speak("No file found")
             print("Nothing to delete")
             print("syntax:- -r 'filename'")
-    elif "-c" in sys.argv[1] or "-C" in sys.argv[1]:
+    elif "-c" == sys.argv[1] or "-C" == sys.argv[1]:
         try:
             create_or_run_c_file(sys.argv[2])
         except:
             speaker.speak("No argument found")
             print("syntax:- -c 'filename'")
+    elif "-convert" == sys.argv[1]:
+        try:
+            docx_name = input("Enter Docx file name: ")
+            pdf_name = docx_name + ".pdf"
+            docx_name += ".docx"
+            final_pdf_name = input("Enter pdf name: ")
+            final_pdf_name += ".pdf"
+            print("converting...")
+            convertDocxToPDF(docx_name=docx_name, pdf_name=pdf_name, final_pdf_name=final_pdf_name)
+            print("converted...")
+        except:
+            print("Something went wrong")
+            speaker.speak("Something strange")
+    elif "-docx":
+        pdf_name = input("Enter the pdf file name: ")
+        
+        print(pdf_name)
+        PdfDocxcoverter(pdfName=pdf_name)
 
 
 def helper(secret_command, pdf_name=None):
@@ -114,6 +132,7 @@ def main():
         else:
             sys.argv[1] += ".java"
             Create_or_run_java_file(sys.argv[1])
+            remove_unwanted()
     else:
         switch()
 
@@ -133,6 +152,6 @@ if __name__ == "__main__":
         search_wiki(sys.argv[2:])
         
     else: 
-        print("start")
+        
         main()  
-        print("End")
+        
