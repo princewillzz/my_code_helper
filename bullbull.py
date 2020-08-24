@@ -136,13 +136,14 @@ def voice_input():
     with sr.Microphone() as source:
         # Adjusting the audio from the source to deal with the ambiance
         r.adjust_for_ambient_noise(source, duration=1)
-        print("Listening")
+        #print("Listening")
         audio = r.listen(source)
 
     try:
         # Using google to recognize the audio and convert it into text
         # Language set to india performs much better
         response = r.recognize_google(audio, language="en-in")
+        response = response.replace("bulbul", "")
         response = response.replace("bullbull", "")
         return response
     except sr.UnknownValueError: # if it cannot be recognized
@@ -157,15 +158,35 @@ def voice_input():
 
     return None
 
+def notes():
+    print("Starting to Put down some notes!.... You can speak now")
+    speak("Starting to Put down some notes!.... You can speak now")
+    print("Listening")
+    while True:
+        note = voice_input()
+        if note != None and "quit" in note:
+            speak("Notes done!. Bye")
+            return
+        if note != None or note != "":
+            print(note)
+
 
 # The driver code
 def main():
     while True:
+        print("Listening")
         command = voice_input()
         if command == None: 
             continue
         speak(command)
         command = command.lower()
+
+        if "note" in command or "record" in command:
+            print("Starting to Put down some notes!.... You can speak now")
+            speak("Starting to Put down some notes!.... You can speak now")
+            print("Listening")
+            notes()
+
 
         if "open" in command or "view" in command or "pdf" in command:
             command = command.replace("view", "")
@@ -282,4 +303,8 @@ r.dynamic_energy_threshold = True
 
 if __name__ == "__main__":
     wish()
-    main()
+    if sys.argv[1] != None:
+        print(sys.argv[1])
+        notes()
+    else :
+        main()

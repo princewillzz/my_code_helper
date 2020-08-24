@@ -27,7 +27,7 @@ def Create_or_run_java_file(name_of_file):
     # Check if the file already exist then just compile and run the program
     if os.path.exists(name_of_file):
         run_java(java_file_to_be_run=name_of_file)
-        return
+        return 200
 
     # Write the name of the file in run.txt to compile and run the program later
     f = open("D:\dev\projects\my_code_helper\\trackingfiles/run.txt", "w")
@@ -50,4 +50,5 @@ def Create_or_run_java_file(name_of_file):
 
     f1.close()
     f2.close()
+    return 404
 

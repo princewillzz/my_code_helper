@@ -131,8 +131,10 @@ def main():
             
         else:
             sys.argv[1] += ".java"
-            Create_or_run_java_file(sys.argv[1])
-            remove_unwanted()
+            if Create_or_run_java_file(sys.argv[1]) == 404:
+                remove_unwanted()
+    else if "note" in sys.argv[1] or "record" in sys.argv[1]:
+        pass
     else:
         switch()
 
