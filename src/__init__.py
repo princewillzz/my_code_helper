@@ -5,3 +5,4 @@ from .features import *
 from .pdfreader import readPDF
 from .convertdp import *
 from .convertPDFToDocx import *
+from .sqlwork import generateSQLQueries
