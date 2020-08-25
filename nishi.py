@@ -90,6 +90,10 @@ def helper(secret_command, pdf_name=None):
 
 @fn_timer
 def main():
+    if "sql" in sys.argv[1] or "query" in sys.argv[1]:
+        generateSQLQueries()
+        return
+        
     if sys.argv[1] == "clean" or sys.argv[1] == "flush" or sys.argv[1] == "cleam":
         remove_unwanted()
     elif sys.argv[1] == "run":
@@ -130,11 +134,14 @@ def main():
             t2.start()
             
         else:
+            # Ask Confirmation
             sys.argv[1] += ".java"
+            s = input("Going to create " + sys.argv[1] +" (Y/N) Y: ")
+            if s != None and 'n' in s.lower():
+                return None 
+
             if Create_or_run_java_file(sys.argv[1]) == 404:
                 remove_unwanted()
-    else if "note" in sys.argv[1] or "record" in sys.argv[1]:
-        pass
     else:
         switch()
 
@@ -145,15 +152,15 @@ if __name__ == "__main__":
     pdf_name = docx_name.split(".")[0] + ".pdf"
     convertDocxToPDF(docx_name=docx_name, pdf_name=pdf_name, final_pdf_name=final_pdf_name)"""
     
-    
-
-    if sys.argv[1] == "speak_pdf001":
-        readPDF(sys.argv[2])
-        
-    elif sys.argv[1] == "speak_wiki002":       
-        search_wiki(sys.argv[2:])
-        
-    else: 
-        
-        main()  
-        
+    try:
+        if sys.argv[1] == "speak_pdf001":
+            readPDF(sys.argv[2])
+            
+        elif sys.argv[1] == "speak_wiki002":       
+            search_wiki(sys.argv[2:])
+            
+        else: 
+            
+            main()  
+    except:
+        print("Something Wrong")
