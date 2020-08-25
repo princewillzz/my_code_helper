@@ -303,7 +303,8 @@ r.dynamic_energy_threshold = True
 
 if __name__ == "__main__":
     wish()
-    if sys.argv[1] != None:
+    print(sys.argv[0])
+    if len(sys.argv) > 1 and sys.argv[1] != None and "notes" in sys.argv[1]:
         print(sys.argv[1])
         notes()
     else :
