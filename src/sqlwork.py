@@ -36,11 +36,15 @@ def show_queries(words: list, sql: str, count_of_question_mark: int):
             for index in range(0, count_of_question_mark):
                 if i >= length_of_words:
                     return
-                query = query.replace('?', words[i], 1)
+                if words[i].isnumeric():
+                    query = query.replace('?', words[i], 1)
+                else :
+                    query = query.replace('?', f'"{words[i]}"', 1)
                 i+=1
             print(query)
     except:
         print("something went wrong")
+
 
 def generateSQLQueries():
     try:

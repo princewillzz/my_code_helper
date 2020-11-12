@@ -1,5 +1,7 @@
 #!/usr/bin/env python
-import os, sys, time
+import os
+import sys
+import time
 import PyPDF2
 
 from src import *
@@ -19,7 +21,7 @@ def fn_timer(function):
         t0 = time.time()
         result = function(*args, **kwargs)
         t1 = time.time()
-        print ("Total time running seconds", str(t1-t0))
+        print("Total time running seconds", str(t1-t0))
         return result
     return function_timer
 
@@ -61,16 +63,28 @@ def switch():
             final_pdf_name = input("Enter pdf name: ")
             final_pdf_name += ".pdf"
             print("converting...")
-            convertDocxToPDF(docx_name=docx_name, pdf_name=pdf_name, final_pdf_name=final_pdf_name)
+            convertDocxToPDF(docx_name=docx_name,
+                             pdf_name=pdf_name, final_pdf_name=final_pdf_name)
             print("converted...")
         except:
             print("Something went wrong")
             speaker.speak("Something strange")
-    elif "-docx":
+    elif "-docx" == sys.argv[1]:
         pdf_name = input("Enter the pdf file name: ")
-        
+
         print(pdf_name)
         PdfDocxcoverter(pdfName=pdf_name)
+    elif "-pdf" == sys.argv[1]:
+        try:
+            pdf_name = sys.argv[2] + ".pdf"
+        except Exception as e:
+            print("pdf file name missing")
+            raise e
+
+        if os.path.exists(pdf_name):
+            print(f"Reading {pdf_name}")
+            t2 = Thread(target=helper, args=("speak_pdf001", pdf_name))
+            t2.start()
 
 
 def helper(secret_command, pdf_name=None):
@@ -81,11 +95,10 @@ def helper(secret_command, pdf_name=None):
                 arguments += f"{ele} "
             os.system(f'start cmd /c "nishi.py {secret_command} {arguments}"')
         else:
-            os.system(f'start cmd /c "nishi.py {secret_command} {pdf_name} {sys.argv[2]} "')
+            os.system(
+                f'start cmd /c "nishi.py {secret_command} {pdf_name} {sys.argv[2]} "')
     except Exception as e:
         os.system(f'start cmd /c "nishi.py {secret_command} {pdf_name} "')
-
-
 
 
 @fn_timer
@@ -93,9 +106,13 @@ def main():
     if "sql" in sys.argv[1] or "query" in sys.argv[1]:
         generateSQLQueries()
         return
-        
+
     if sys.argv[1] == "clean" or sys.argv[1] == "flush" or sys.argv[1] == "cleam":
-        remove_unwanted()
+        try:
+            extension = sys.argv[2]
+            remove_unwanted(extension=extension)
+        except Exception as e:
+            remove_unwanted()
     elif sys.argv[1] == "run":
         print("enter")
         run_java()
@@ -116,7 +133,7 @@ def main():
             t = Thread(target=search_youtube, args=(sys.argv[2:], ))
             t.start()
             speaker.speak("Searching youtube")
-            #search_google(sys.argv[2:])
+            # search_google(sys.argv[2:])
     elif "search" == sys.argv[1] or "google" == sys.argv[1]:
         if sys.argv[2:] == []:
             speaker.speak("The arguments are missing sir")
@@ -127,18 +144,18 @@ def main():
             speaker.speak("Searching google")
     elif "." not in sys.argv[1] and "-" not in sys.argv[1]:
         pdf_name = sys.argv[1] + ".pdf"
-        
+
         if os.path.exists(pdf_name):
             print(f"Reading {pdf_name}")
             t2 = Thread(target=helper, args=("speak_pdf001", pdf_name))
             t2.start()
-            
+
         else:
             # Ask Confirmation
             sys.argv[1] += ".java"
-            s = input("Going to create " + sys.argv[1] +" (Y/N) Y: ")
+            s = input("Going to create " + sys.argv[1] + " (Y/N) Y: ")
             if s != None and 'n' in s.lower():
-                return None 
+                return None
 
             if Create_or_run_java_file(sys.argv[1]) == 404:
                 remove_unwanted()
@@ -151,16 +168,15 @@ if __name__ == "__main__":
     final_pdf_name = sys.argv[2]
     pdf_name = docx_name.split(".")[0] + ".pdf"
     convertDocxToPDF(docx_name=docx_name, pdf_name=pdf_name, final_pdf_name=final_pdf_name)"""
-    
+
     try:
         if sys.argv[1] == "speak_pdf001":
             readPDF(sys.argv[2])
-            
-        elif sys.argv[1] == "speak_wiki002":       
+
+        elif sys.argv[1] == "speak_wiki002":
             search_wiki(sys.argv[2:])
-            
-        else: 
-            
-            main()  
+
+        else:
+            main()
     except:
-        print("Something Wrong")
+        displayHelp()

@@ -1,15 +1,18 @@
+from reportlab.lib.pagesizes import B5
 import PyPDF2
 
-from reportlab.pdfgen import canvas 
-
+from reportlab.pdfgen import canvas
 
 
 from docx import Document
 
+
 def last_line(i=int, pdfname=str):
-    
+
     pdfFile = open(pdfname, 'rb')
+
     pdfReader = PyPDF2.PdfFileReader(pdfFile)
+
     count = 0
     try:
         page = pdfReader.getPage(i).extractText().split('\n')
@@ -19,34 +22,34 @@ def last_line(i=int, pdfname=str):
         t = page[l]
         if len(t) > 1:
             lineToMatch = page[l]
-            #print(lineToMatch)
+            # print(lineToMatch)
             return [lineToMatch, count]
-        count+=1
+        count += 1
 
     pdfFile.close()
 
 
-
-
-from reportlab.lib.pagesizes import B5
-
-
 def convertDocxToPDF(docx_name=str, pdf_name=str, final_pdf_name=str):
     doc = Document(docx_name)
-    textLines = [];count=0;
+
+    textLines = []
+    count = 0
     for i in doc.paragraphs:
-        count+=1
+        count += 1
         textLines.append(i.text)
-        
+
     pdf = canvas.Canvas(final_pdf_name)
 
     text = pdf.beginText(30, 800)
+
     #text.setFont("Courier", 12)
     i = 0
     last_tuple = last_line(0, pdf_name)
+    print("hi 1")
     flag = 0
+
     for every_line in textLines:
-        
+
         if last_tuple[0] in every_line or flag == 1:
             flag = 1
             if last_tuple[1] > 0:
@@ -55,20 +58,18 @@ def convertDocxToPDF(docx_name=str, pdf_name=str, final_pdf_name=str):
                 continue
             flag = 0
             pdf.drawText(text)
-            pdf.showPage()    
-            
+            pdf.showPage()
+
             text = pdf.beginText(30, 800)
             text.setFont("Courier", 12)
-            i+=1
+            i += 1
             last_tuple = last_line(i, pdf_name)
             if last_tuple == None:
                 break
 
-
         else:
             print(every_line)
             text.textLine(every_line)
-
 
     pdf.drawText(text)
     pdf.showPage()

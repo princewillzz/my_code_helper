@@ -6,3 +6,5 @@ from .pdfreader import readPDF
 from .convertdp import *
 from .convertPDFToDocx import *
 from .sqlwork import generateSQLQueries
+
+from .menu import displayHelp
