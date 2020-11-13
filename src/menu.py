@@ -2,8 +2,10 @@ import os
 
 
 def displayHelp():
+    file_to_read = os.path.dirname(
+        __file__) + "\\trackingfiles/display_help.txt"
     displayHelpFile = open(
-        "D:\dev\projects\my_code_helper\\trackingfiles/display_help.txt")
+        file_to_read)
     for line in displayHelpFile:
         print(line)
 
@@ -11,8 +13,10 @@ def displayHelp():
 def sortHelpFile():
     try:
         # open the help file to read its content
+        file_to_read = os.path.dirname(
+            __file__) + "\\trackingfiles/display_help.txt"
         displayHelpFile = open(
-            "D:\dev\projects\my_code_helper\\trackingfiles/display_help.txt")
+            file_to_read)
 
         # create a list to store all the content
         allLinesList = list()
@@ -23,8 +27,7 @@ def sortHelpFile():
         allLinesList.sort()
 
         # Open the same help file to write in it and write the sorted list
-        displayHelpFileNew = open(
-            "D:\dev\projects\my_code_helper\\trackingfiles/display_help.txt", 'w')
+        displayHelpFileNew = open(file_to_read, 'w')
         for ele in allLinesList:
             displayHelpFileNew.write(ele)
     except Exception as e:

@@ -146,22 +146,15 @@ def main():
 
         else:
             # Ask Confirmation
-            sys.argv[1] += ".java"
-            s = input("Going to create " + sys.argv[1] + " (Y/N) Y: ")
-            if s != None and 'n' in s.lower():
-                return None
+            file_name = sys.argv[1] + ".java"
 
-            if Create_or_run_java_file(sys.argv[1]) == 404:
+            if Create_or_run_java_file(name_of_file=file_name) == 404:
                 remove_unwanted()
     else:
         switch()
 
 
 if __name__ == "__main__":
-    """docx_name = sys.argv[1]
-    final_pdf_name = sys.argv[2]
-    pdf_name = docx_name.split(".")[0] + ".pdf"
-    convertDocxToPDF(docx_name=docx_name, pdf_name=pdf_name, final_pdf_name=final_pdf_name)"""
 
     try:
         if sys.argv[1] == "speak_pdf001":
