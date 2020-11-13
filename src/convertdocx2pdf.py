@@ -45,7 +45,7 @@ def convertDocxToPDF(docx_name=str, pdf_name=str, final_pdf_name=str):
     #text.setFont("Courier", 12)
     i = 0
     last_tuple = last_line(0, pdf_name)
-    print("hi 1")
+
     flag = 0
 
     for every_line in textLines:

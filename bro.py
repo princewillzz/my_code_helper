@@ -57,15 +57,9 @@ def switch():
             print("syntax:- -c 'filename'")
     elif "-convert" == sys.argv[1]:
         try:
-            docx_name = input("Enter Docx file name: ")
-            pdf_name = docx_name + ".pdf"
-            docx_name += ".docx"
-            final_pdf_name = input("Enter pdf name: ")
-            final_pdf_name += ".pdf"
-            print("converting...")
-            convertDocxToPDF(docx_name=docx_name,
-                             pdf_name=pdf_name, final_pdf_name=final_pdf_name)
-            print("converted...")
+            thread = Thread(target=runImageToPDFConverterApp)
+            thread.start()
+            speaker.speak("Starting the App")
         except:
             print("Something went wrong")
             speaker.speak("Something strange")
@@ -93,12 +87,12 @@ def helper(secret_command, pdf_name=None):
             arguments = ""
             for ele in sys.argv[2:]:
                 arguments += f"{ele} "
-            os.system(f'start cmd /c "nishi.py {secret_command} {arguments}"')
+            os.system(f'start cmd /c "bro.py {secret_command} {arguments}"')
         else:
             os.system(
-                f'start cmd /c "nishi.py {secret_command} {pdf_name} {sys.argv[2]} "')
+                f'start cmd /c "bro.py {secret_command} {pdf_name} {sys.argv[2]} "')
     except Exception as e:
-        os.system(f'start cmd /c "nishi.py {secret_command} {pdf_name} "')
+        os.system(f'start cmd /c "bro.py {secret_command} {pdf_name} "')
 
 
 @fn_timer
