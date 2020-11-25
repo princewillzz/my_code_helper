@@ -10,3 +10,6 @@ from .sqlwork import generateSQLQueries
 from .menu import displayHelp
 
 from .ImageToPDFConverterAPP import ImageToPDFConverterAPP, runImageToPDFConverterApp
+
+
+from .CoronaTracker import CoronaTracker

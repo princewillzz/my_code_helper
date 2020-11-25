@@ -11,22 +11,22 @@ class ImageToPDFConverterAPP:
         self.root = tk.Tk()
 
         self.canvas1 = tk.Canvas(self.root, width=300, height=300,
-                                 bg='lightsteelblue2', relief='raised')
+                                 bg='grey85', relief='raised')
         self.canvas1.pack()
 
         self.label1 = tk.Label(
-            self.root, text='File Conversion Tool', bg='lightsteelblue2')
+            self.root, text='Images to PDF', bg='grey85')
         self.label1.config(font=('helvetica', 20))
         self.canvas1.create_window(150, 60, window=self.label1)
 
         self.images_list = list()
 
-        self.browseButton = tk.Button(text="     Select File     ", command=self.getFiles,
-                                      bg='green', fg='white', font=('helvetica', 12, 'bold'))
+        self.browseButton = tk.Button(text="     Select Files     ", command=self.getFiles,
+                                      bg='DarkOrchid', fg='white', font=('helvetica', 12, 'bold'))
         self.canvas1.create_window(150, 130, window=self.browseButton)
 
         self.saveAsButton = tk.Button(text='Convert to PDF', command=self.convertToPdf,
-                                      bg='green', fg='white', font=('helvetica', 12, 'bold'))
+                                      bg='DarkOrchid', fg='white', font=('helvetica', 12, 'bold'))
         self.canvas1.create_window(150, 180, window=self.saveAsButton)
 
         ##############

@@ -35,10 +35,9 @@ def search_wiki(query_list):
     speaker = Speaker()
 
     try:
-        speaker.speak("Searching wikipedia")
-
-        sentences = int(input("Enter number of lines to read: "))
         speaker.speak("How many sentences do you want me to read")
+        sentences = int(input("Enter number of lines to read: "))
+
     except:
         sentences = 5
         speaker.speak("I can't get it. I am reading out 5 sentences for you!")

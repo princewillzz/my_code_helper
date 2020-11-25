@@ -3,12 +3,12 @@
 -clean --ext            ---clean files in the directory
 -commit                 ---commit staged files to git
 -convert                ---convert docx to pdf
--cr                     ---run c files
+-cr                     ---compile & run c files
 -docx                   ---convert pdf to docx
 -pdf filename           ---read pdf file
 -r                      ---remove file
 -run                    ---run java files
 -search                 ---search on google
 -sql                    ---Generate Sql Queries
--wiki                   ---search on wikipedia
+-wiki|-w                ---search on wikipedia
 -ytb                    ---search on youtube

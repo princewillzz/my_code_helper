@@ -26,13 +26,39 @@ def fn_timer(function):
     return function_timer
 
 
-def switch():
-    if "." in sys.argv[1]:
-        f = open(sys.argv[1], "w")
+def switch(switchQuery, queryCommand=None):
+
+    if "." in switchQuery:
+        f = open(switchQuery, "w")
         f.close()
-    elif "-cr" == sys.argv[1] or "-CR" == sys.argv[1]:
+    elif "-corona" == switchQuery or switchQuery == "-coro":
+        coronaTracker = CoronaTracker()
+        if coronaTracker.isConnectionBroken():
+            print("Check your internet connection and Try Again...")
+            speaker.speak(
+                "Check your internet connection and Try Again later...")
+            return
+
+        print("Current Update")
+
+        speaker.speak("Today's Update is!: ")
+        coronaTracker.getTodaysUpdate()
+
+        while True:
+            countries = list(
+                map(str, input("Enter Country/ies name or abbreviation to check it's update: ").split(" ")))
+
+            if countries == None or len(countries) < 1 or len(countries[0]) < 1:
+                print("Wear mask be safe... GoodBye")
+                speaker.speak("wear mask! and be safe!... GoodBye!")
+                return
+
+            coronaTracker.getUpdateOfCountry(countries=countries)
+
+        return
+    elif "-cr" == switchQuery or "-CR" == switchQuery:
         try:
-            run_c(f"{sys.argv[2]}.c")
+            run_c(f"{queryCommand}.c")
         except:
             try:
                 os.remove("a.exe")
@@ -40,22 +66,22 @@ def switch():
                 speaker.speak("no filename found")
                 print("Nothing to do")
                 print("syntax:- -cr 'filename'")
-    elif "-r" == sys.argv[1] or "-R" == sys.argv[1]:
+    elif "-r" == switchQuery or "-R" == switchQuery:
         try:
-            os.remove(sys.argv[2])
+            os.remove(queryCommand)
         except IndexError:
             os.remove("a.exe")
         except:
             speaker.speak("No file found")
             print("Nothing to delete")
             print("syntax:- -r 'filename'")
-    elif "-c" == sys.argv[1] or "-C" == sys.argv[1]:
+    elif "-c" == switchQuery or "-C" == switchQuery:
         try:
-            create_or_run_c_file(sys.argv[2])
+            create_or_run_c_file(queryCommand)
         except:
             speaker.speak("No argument found")
             print("syntax:- -c 'filename'")
-    elif "-convert" == sys.argv[1]:
+    elif "-convert" == switchQuery:
         try:
             thread = Thread(target=runImageToPDFConverterApp)
             thread.start()
@@ -63,14 +89,14 @@ def switch():
         except:
             print("Something went wrong")
             speaker.speak("Something strange")
-    elif "-docx" == sys.argv[1]:
+    elif "-docx" == switchQuery:
         pdf_name = input("Enter the pdf file name: ")
 
         print(pdf_name)
         PdfDocxcoverter(pdfName=pdf_name)
-    elif "-pdf" == sys.argv[1]:
+    elif "-pdf" == switchQuery:
         try:
-            pdf_name = sys.argv[2] + ".pdf"
+            pdf_name = queryCommand + ".pdf"
         except Exception as e:
             print("pdf file name missing")
             raise e
@@ -151,7 +177,14 @@ def main():
             if Create_or_run_java_file(name_of_file=file_name) == 404:
                 remove_unwanted()
     else:
-        switch()
+        try:
+            switchQuery = sys.argv[1]
+            queryCommand = None
+            if len(sys.argv) > 2:
+                queryCommand = sys.argv[2]
+            switch(switchQuery=switchQuery, queryCommand=queryCommand)
+        except Exception as e:
+            print("something wrong...", e)
 
 
 if __name__ == "__main__":
