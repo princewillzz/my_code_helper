@@ -1,6 +1,7 @@
 -"name".ext             ---create file with "name".ext
 -c                      ---to create c files
 -clean --ext            ---clean files in the directory
+-corona                 ---Get Corona updates
 -commit                 ---commit staged files to git
 -convert                ---convert docx to pdf
 -cr                     ---compile & run c files
